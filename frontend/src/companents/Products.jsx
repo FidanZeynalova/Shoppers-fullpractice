@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { FaInfoCircle } from 'react-icons/fa';
 import { FcLike } from "react-icons/fc";
 import { NavLink } from "react-router"
@@ -7,9 +7,9 @@ import { FavoritesContext } from '../context/FavContext';
 function Products() {
     let { data, isLoading, refetch } = useGetDataQuery()
     let { favorites, setFavorites } = useContext(FavoritesContext)
+    let [allData, setAllData] = useState([])
 
 
-  
     function handleFav(item) {
         let filter = favorites.find((fav) => fav._id == item._id)
 
@@ -19,10 +19,30 @@ function Products() {
             setFavorites([...favorites, item])
         }
     }
+    function handleSearch(inpValue) {
+        if (inpValue.trim().toLowerCase() == '') {
+            setAllData([...data])
+        } else {
+            let find = allData.filter((item) => item.name.toLowerCase().includes(inpValue.trim().toLowerCase()))
+            setAllData(find)
+        }
+    }
     return (
         <div className='Products'>
             <div className="container">
                 <h1>Featured Products</h1>
+                <div className="sort-search">
+                    <div className="search">
+                        <input type="text" placeholder='Search ...' onChange={(e) => handleSearch(e.target.value)} />
+                    </div>
+                    <div className="sort">
+                        <select >
+                            <option value="default">Default</option>
+                            <option value="az">A-Z</option>
+                            <option value="za">Z-A</option>
+                        </select>
+                    </div>
+                </div>
                 <div className="card-wrapper">
                     {
                         isLoading ? (
