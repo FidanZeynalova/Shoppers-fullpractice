@@ -1,5 +1,5 @@
 import React from 'react'
-import { useGetDataQuery, usePostDataMutation } from '../App/Slices/slice'
+import { useDeleteDataMutation, useGetDataQuery, usePostDataMutation } from '../App/Slices/slice'
 import { Helmet } from 'react-helmet'
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as yup from 'yup';
@@ -13,9 +13,14 @@ let schema = yup.object().shape({
 
 function Add() {
   let [postData] = usePostDataMutation()
-  let { data, refech, isLoading } = useGetDataQuery()
+  let [deleteData] = useDeleteDataMutation()
+  let { data, refetch, isLoading } = useGetDataQuery()
   console.log(data);
 
+  async function handleDelete(id) {
+  await  deleteData(id)
+    refetch()
+  }
 
   return (
     <>
@@ -30,7 +35,7 @@ function Add() {
           validationSchema={schema}
           onSubmit={async (values) => {
             await postData(values)
-            refech()
+            refetch()
           }}
         >
           {({ isSubmitting }) => (
@@ -64,8 +69,8 @@ function Add() {
                 return <tr key={item._id}>
                   <td style={{ width: "200px", height: "200px" }} ><img src={item.img} alt="" style={{ width: "100%", height: "100%" }} /></td>
                   <td>{item.name}</td>
-                  <td>{item.price}</td>
-                  <td><button style={{ padding: "10px", fontSize: "25px", backgroundColor: "aqua", borderRadius: "10px" }} onClick={()=>handleDelete(item._id)}><FaDeleteLeft /></button></td>
+                  <td>{item.price}$</td>
+                  <td><button style={{ padding: "10px", fontSize: "25px", backgroundColor: "aqua", borderRadius: "10px" }} onClick={() => handleDelete(item._id)}><FaDeleteLeft /></button></td>
                 </tr>
               })
             )

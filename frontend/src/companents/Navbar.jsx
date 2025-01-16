@@ -13,7 +13,7 @@ function Navbar() {
         </div>
         <div className="list">
           <ul>
-            <li>Home</li>
+            <li><NavLink to={"/"} style={{ color: "black" }}>Home</NavLink></li>
             <li>About</li>
             <li>Shop</li>
             <li><NavLink to={"/add"} style={{ color: "black" }}>Add</NavLink></li>

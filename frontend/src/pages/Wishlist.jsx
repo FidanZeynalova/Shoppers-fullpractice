@@ -4,6 +4,7 @@ import { NavLink } from 'react-router'
 import { FaInfoCircle } from 'react-icons/fa'
 import { FcDislike } from 'react-icons/fc'
 import { useDeleteDataMutation, useGetDataQuery } from '../App/Slices/slice'
+import { Helmet } from 'react-helmet'
 
 function Wishlist() {
   let { favorites, setFavorites } = useContext(FavoritesContext)
@@ -17,6 +18,11 @@ function Wishlist() {
   }
   return (
     <>
+    <Helmet>
+       <link rel="icon" type="image/svg+xml" href="https://is.gd/7HV947" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wishlist</title>
+       </Helmet>
       <div className='Wishlist'>
         <h1>Wishlisht</h1>
         <div className="card-wrapper">
